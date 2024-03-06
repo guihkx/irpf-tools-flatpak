@@ -1,0 +1,3 @@
+libgnome-stubs/*.so.*
+sources-generator/__pycache__/
+**/env/
