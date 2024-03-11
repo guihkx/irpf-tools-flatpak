@@ -285,7 +285,7 @@ def main():
                        version-pattern: {zip_file.id}__([\\d_]+)\\.zip
                        url-template: {zip_url_tpl}'''
 
-        print(textwrap.dedent(source))
+        print(textwrap.indent(textwrap.dedent(source), '  '))
         if k + 1 < zip_total:
             print()
 
