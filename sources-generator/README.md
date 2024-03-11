@@ -1,6 +1,6 @@
 ## About
 
-This script generates Flatpak [sources](https://docs.flatpak.org/en/latest/manifests.html#modules) for [IRPF](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda)🇧🇷 apps [on Flathub](https://github.com/search?q=org%3Aflathub+br.gov.fazenda.receita&type=repositories).
+This script generates Flatpak [sources](https://docs.flatpak.org/en/latest/manifests.html#modules) for [IRPF](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/download/pgd/dirpf)🇧🇷 apps [on Flathub](https://github.com/search?q=org%3Aflathub+br.gov.fazenda.receita&type=repositories).
 
 These sources are composed of ZIP files, and upon extracting them, we get a single XML file, which should be installed to the `lib/resources` directory, where other XML files already exist.
 
