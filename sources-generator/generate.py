@@ -266,7 +266,8 @@ def main():
                    - type: archive
                      dest-filename: {zip_file.id}.zip
                      url: {zip_file.url}
-                     sha256: {zip_file.sha256}'''
+                     sha256: {zip_file.sha256}
+                     strip-components: 2'''
         else:
             source = f'''\
                    - type: extra-data
