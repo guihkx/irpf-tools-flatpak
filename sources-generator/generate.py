@@ -205,8 +205,8 @@ def main():
                                                  'Flathub: https://flathub.org/apps/search?q=irpf')
     parser.add_argument('-d', '--direct-sources', action=argparse.BooleanOptionalAction,
                         default=False, help='generate direct sources, instead of extra-data ones')
-    parser.add_argument('-e', '--edition', type=validate_irpf_edition, default=2023,
-                        help='the IRPF edition of the ZIP files (defaults to 2023)')
+    parser.add_argument('-e', '--edition', type=validate_irpf_edition, default=2024,
+                        help='the IRPF edition of the ZIP files (defaults to 2024)')
     parser.add_argument('-n', '--no-data-checker', action=argparse.BooleanOptionalAction,
                         default=False, help='skip generation of x-checker-data entries '
                         '(https://github.com/flathub-infra/flatpak-external-data-checker)')
