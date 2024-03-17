@@ -38,11 +38,9 @@ In 2023, I got a [bug report](https://github.com/flathub/br.gov.fazenda.receita.
 
 And sure enough, after I set up Kinoite in a VM, I was able to confirm that IRPF wasn't able to open URLs with the default web browser.
 
-The (apparent) reason for that, is because gvfs needs to be installed *and running on the host*! I.e.m having gvfs libraries only on the Flatpak side, is not enough to make URLs open!
+The (apparent) reason for that, is because gvfs needs to be installed *and running on the host*! I.e., having gvfs libraries only on the Flatpak side is not enough to open URLs!
 
-But expecting users to install a system component just to make URLs open, is ludicrous.
-
-Not to mention users that aren't able to do that, as they e.g. lack permission to install system packages; Or maybe they use an immutable distro, like Kinoite.
+But expecting users to install a system component just to make URLs open, is ludicrous: It can be slightly annoying if they use an immutable distro, or just plain impossible if they lack permission to install system packages.
 
 ## Solutions
 
@@ -66,7 +64,7 @@ If that works, OpenJDK [will use](https://github.com/openjdk/jdk11u-dev/blob/jdk
 
 But as stated in the beginning of this README, GnomeVFS and libgnome are both defunct (and unmaintained) libraries.
 
-So, the idea here is to make naïve/dumb implementations of `gnome_vfs_init()` (from GnomeVFS) `gnome_url_show()` (from libgnome).
+So, the idea here is to make naïve/dumb implementations of `gnome_vfs_init()` (from GnomeVFS) and `gnome_url_show()` (from libgnome).
 
 Then, we build and install these two fake libraries to `/app/lib`, and then invoke `java` with the `-Djdk.gtk.version=2` option, which forces the OpenJDK to try to load GTK 2 libraries (which we don't provide).
 
