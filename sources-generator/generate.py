@@ -125,23 +125,27 @@ def get_zips_from_xml(xml_obj: ElementTree.Element, edition: int) -> dict[ZIPFil
     files = xml_obj.findall('.//extra/files/file')
 
     for i, file in enumerate(files):
-        name = file.find('filePackageName')
-        if name is None:
-            logging.warning('<file> node #%d lacks a <filePackageName> child node.', i + 1)
-            continue
-        name = name.text
-
-        if not name.endswith('.zip'):
-            logging.warning('<file> node named "%s" is not a ZIP file.', name)
-            continue
-
         _id = file.find('fileId')
         if _id is None:
-            logging.warning('<file> node named "%s" lacks a "fileId" tag.', name)
+            logging.warning('<file> node #%d lacks a "fileId" tag, ignoring it.', i + 1)
             continue
         _id = _id.text
 
         assert _id not in ids, 'Duplicate file ID found, abort!'
+
+        name = file.find('filePackageName')
+        if name is None:
+            logging.warning('<file> node with fileID "%s" lacks a <filePackageName> child node, ignoring it.', _id)
+            continue
+        name = name.text
+
+        if name is None:
+            logging.warning('<file> node with fileID "%s" has an empty "filePackageName" tag, ignoring it.', _id)
+            continue
+
+        if not name.endswith('.zip'):
+            logging.warning('<file> node with fileID "%s" is not a ZIP file, ignoring it.', _id)
+            continue
 
         url = XML_ASSETS_URL.format(edition=edition, path=name)
 
