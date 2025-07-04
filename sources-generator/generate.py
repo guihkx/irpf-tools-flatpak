@@ -50,7 +50,7 @@ from xml.etree import ElementTree
 import defusedxml.ElementTree as ET
 import requests
 
-XML_ASSETS_URL = 'https://downloadirpf.receita.fazenda.gov.br/irpf/{edition:d}/{type:s}/update/{path:s}'
+XML_ASSETS_URL = 'https://downloadirpf.receita.fazenda.gov.br/irpf/{edition:d}/{program_name:s}/update/{path:s}'
 JAVA_USER_AGENT = 'Java/11.0.22'
 
 @dataclass
@@ -64,14 +64,14 @@ class ZIPFileIRPF:
     sha256: str = None
     size: int = -1
 
-def validate_irpf_type(type: str) -> str:
+def validate_program_name(program_name: str) -> str:
     '''
-    Validates an IRPF type
+    Validates the program name
     '''
-    if type not in ['irpf', 'gcap']:
-        raise argparse.ArgumentTypeError('invalid IRPF type, must be "irpf" or "gcap"')
+    if program_name not in ['irpf', 'gcap']:
+        raise argparse.ArgumentTypeError('invalid program name, must be "irpf" or "gcap"')
 
-    return type
+    return program_name
 
 def validate_irpf_edition(edition: str) -> int:
     '''
@@ -96,11 +96,11 @@ def set_up_logging(level_index: int):
     logging.basicConfig(level=level,
                         format='%(asctime)s [%(levelname)s] %(message)s')
 
-def gen_zip_sources_url(type: str, edition: int, path='latest.xml') -> str:
+def gen_zip_sources_url(program_name: str, edition: int, path='latest.xml') -> str:
     '''
     Generates an URL that points to an XML file that lists all the ZIP files
     '''
-    return XML_ASSETS_URL.format(type=type, edition=edition, path=path)
+    return XML_ASSETS_URL.format(program_name=program_name, edition=edition, path=path)
 
 def fetch_remote_url(url: str, headers=None) -> str | bytes:
     '''
@@ -125,7 +125,7 @@ def text_to_xml(text: str) -> ElementTree.Element:
     '''
     return ET.fromstring(text)
 
-def get_zips_from_xml(xml_obj: ElementTree.Element, type: str, edition: int) -> dict[ZIPFileIRPF]:
+def get_zips_from_xml(xml_obj: ElementTree.Element, program_name: str, edition: int) -> dict[ZIPFileIRPF]:
     '''
     Builds a detailed list about each ZIP file found in the specified XML object
     '''
@@ -156,7 +156,7 @@ def get_zips_from_xml(xml_obj: ElementTree.Element, type: str, edition: int) -> 
             logging.warning('<file> node with fileID "%s" is not a ZIP file, ignoring it.', _id)
             continue
 
-        url = XML_ASSETS_URL.format(type=type, edition=edition, path=name)
+        url = XML_ASSETS_URL.format(program_name=program_name, edition=edition, path=name)
 
         ids.append(_id)
         zips.append(ZIPFileIRPF(id=_id, name=name, url=url))
@@ -218,8 +218,8 @@ def main():
                                                  'Flathub: https://flathub.org/apps/search?q=irpf')
     parser.add_argument('-d', '--direct-sources', action=argparse.BooleanOptionalAction,
                         default=False, help='generate direct sources, instead of extra-data ones')
-    parser.add_argument('-t', '--type', type=validate_irpf_type, default='irpf',
-                        help='the IRPF program type (defaults to irpf)')
+    parser.add_argument('-p', '--program-name', type=validate_program_name, default='irpf',
+                        help='the program name (defaults to irpf)')
     parser.add_argument('-e', '--edition', type=validate_irpf_edition, default=2024,
                         help='the IRPF edition of the ZIP files (defaults to 2024)')
     parser.add_argument('-n', '--no-data-checker', action=argparse.BooleanOptionalAction,
@@ -231,7 +231,7 @@ def main():
     options = parser.parse_args()
     set_up_logging(options.verbose)
 
-    url_zip_src = gen_zip_sources_url(options.type, options.edition)
+    url_zip_src = gen_zip_sources_url(options.program_name, options.edition)
     logging.info('Fetching remote XML file: %s', url_zip_src)
 
     try:
@@ -253,7 +253,7 @@ def main():
             logging.info('Hint: Rerun with -v for more details.')
         sys.exit(1)
 
-    zip_files = get_zips_from_xml(xml, type=options.type, edition=options.edition)
+    zip_files = get_zips_from_xml(xml, program_name=options.program_name, edition=options.edition)
     zip_total = len(zip_files)
 
     if zip_total == 0:
@@ -292,7 +292,7 @@ def main():
                      sha256: {zip_file.sha256}'''
 
         if not options.no_data_checker:
-            zip_url_tpl = XML_ASSETS_URL.format(type=options.type, edition=options.edition,
+            zip_url_tpl = XML_ASSETS_URL.format(program_name=options.program_name, edition=options.edition,
                                                 path=f'{zip_file.id}__$version.zip')
             source += f'''
                      x-checker-data:
