@@ -1,6 +1,6 @@
 ## About
 
-This directory contains C sources with dumb implementations of APIs present in two defunct projects: [libgnome](https://developer-old.gnome.org/libgnome/stable/) and [GnomeVFS](https://www.manpagez.com/html/gnome-vfs/gnome-vfs-2.24.1/).
+This directory contains C sources with dumb implementations of APIs present in two defunct projects: [libgnome](https://web.archive.org/web/20240303155825/https://developer-old.gnome.org/libgnome/stable/) and [GnomeVFS](https://www.manpagez.com/html/gnome-vfs/gnome-vfs-2.24.1/).
 
 For GnomeVFS, the only API symbol implemented is [`gnome_vfs_init()`](https://www.manpagez.com/html/gnome-vfs/gnome-vfs-2.24.1/gnome-vfs-2.0-gnome-vfs-init.php#gnome-vfs-init).
 
