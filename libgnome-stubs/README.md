@@ -7,7 +7,7 @@ This directory contains C sources with dumb implementations of APIs present in t
 
 For GnomeVFS, the only API symbol implemented is [`gnome_vfs_init()`](https://www.manpagez.com/html/gnome-vfs/gnome-vfs-2.24.1/gnome-vfs-2.0-gnome-vfs-init.php#gnome-vfs-init).
 
-For libgnome, the only API symbol implemented is [`gnome_url_show()`](https://developer-old.gnome.org/libgnome/stable/libgnome-gnome-url.html#gnome-url-show).
+For libgnome, the only API symbol implemented is [`gnome_url_show()`](https://web.archive.org/web/20240226234740/https://developer-old.gnome.org/libgnome/stable/libgnome-gnome-url.html#gnome-url-show).
 
 Keep reading to understand the point of all this.
 
