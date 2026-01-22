@@ -222,7 +222,7 @@ def main():
                         help='the program name (defaults to irpf)')
     parser.add_argument('-e', '--edition', type=validate_irpf_edition, default=2025,
                         help='the IRPF edition of the ZIP files (defaults to 2025)')
-    parser.add_argument('-n', '--no-data-checker', action=argparse.BooleanOptionalAction,
+    parser.add_argument('-n', '--no-data-checker', action='store_true', dest='no_data_checker',
                         default=False, help='skip generation of x-checker-data entries '
                         '(https://github.com/flathub-infra/flatpak-external-data-checker)')
     parser.add_argument('-v', '--verbose', action='count', default=0,
